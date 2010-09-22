@@ -1,0 +1,14 @@
+General Information
+===================
+This is rhyming dictionary written in QT.
+
+It requires dictionaries (each dictionary is an simple sqlite-database) - just put them in a directory with a bin-file.
+*	You can download some dictionaries from here:
+	http://file391.narod.ru/dict/english_compact.sqlite.7z
+	http://file391.narod.ru/dict/russian_full.sqlite.7z
+*	Or you can generate yout own dictionary - put in a directory with an executable file txt-file,
+	where each line represents one word, then open terminal in this directory and put
+	QRhymingDictionary <your_txt-file_name> [-n]
+	you can use -n option after txt-file name if you're shure, that there are no repeated lines in your txt-file
+	(in this case dictionary will be created faster)
+	NOTE: creating of the new dictionary takes a very long time (even with -n option it takes about 8 second per 100 words)
