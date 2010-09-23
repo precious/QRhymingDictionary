@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     line_edit = new QLineEdit;
     combo_box = new QComboBox;
     timer = new QTimer;
-    timer->setInterval(300); //mseconds
+    timer->setInterval(0); //mseconds
     timer->setSingleShot(true);
     QObject::connect(line_edit,SIGNAL(textChanged(QString)),timer,SLOT(start()));
     QObject::connect(timer,SIGNAL(timeout()),this,SLOT(insert_rhymes()));
@@ -83,6 +83,7 @@ bool MainWindow::insert_rhymes()
     red.setForeground(QBrush(QColor(255,0,0)));
     QTextCharFormat black;
     black.setForeground(QBrush(QColor(0,0,0)));
+    bool is_previous_red = false;
     for(int current_row = 0;current_row < rows;current_row++)
     {
         for(int current_col = 0;current_col < columns;current_col++)
@@ -96,16 +97,24 @@ bool MainWindow::insert_rhymes()
                 {
                     if(ptr.QVector<int>::contains(i))
                     {
-                        cellCursor.setCharFormat(red);
-                        cellCursor.insertText(QString(QString(ptr)[i]));
+                        if(!is_previous_red)
+                        {
+                            is_previous_red = true;
+                            cellCursor.setCharFormat(red);
+                        }
                     }
                     else
                     {
-                        cellCursor.setCharFormat(black);
-                        cellCursor.insertText(QString(QString(ptr)[i]));
+                        if(is_previous_red)
+                        {
+                            is_previous_red = false;
+                            cellCursor.setCharFormat(black);
+                        }
                     }
+                    cellCursor.insertText(QString(QString(ptr)[i]));
                 }
                 rhymes.removeFirst();
+                is_previous_red = false;
             }
             else
             {
@@ -150,6 +159,11 @@ QList<QStrVec> sorted_list(QString word,QList<QString> rhymes)
     {
         list.append(get_overlaps(word,rhymes.takeFirst()));
     }
-    qSort(list.begin(),list.end(),less_than);
+    qSort(list.begin(),list.end(),less_than); 
+    //number of items in list must be <= 1000:
+    for(int to_del = list.size() - 1000;to_del > 0;to_del--)
+    {
+        list.removeLast();
+    }
     return list;
 }
