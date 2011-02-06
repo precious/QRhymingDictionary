@@ -1,8 +1,8 @@
 *.sqlite
 *.txt
 moc*
-Makefile
 QRhymingDictionary
 *.o
 *.7z
 *.user
+QRD

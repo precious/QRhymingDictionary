@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(timer,SIGNAL(timeout()),this,SLOT(insert_rhymes()));
     QObject::connect(combo_box,SIGNAL(currentIndexChanged(int)),this,SLOT(insert_rhymes()));
     text_edit = new QTextEdit;
+    text_edit->setReadOnly(true);
 
     QGridLayout *grid_layout_main = new QGridLayout;
     QGridLayout *grid_layout_2nd = new QGridLayout;

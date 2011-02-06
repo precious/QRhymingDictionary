@@ -27,7 +27,7 @@ bool new_db_from_txt(QString filename,bool are_repetitions_allowed)
     inputf.open(filename.toUtf8().data(),ifstream::in);
     if (!inputf.is_open())
         return fatal_error("unable to open an initial txt");
-    char buf[50];
+    char buf[100];
 
     if (!db.open())
         return fatal_error("unable to open the database");
@@ -60,7 +60,6 @@ bool new_db_from_txt(QString filename,bool are_repetitions_allowed)
         if(!(i%100))
             cout << "words added:" << i << endl;
     }
-
 
     db.close();
     inputf.close();
@@ -187,7 +186,7 @@ QList<QString> get_rhymes(QString db_name,QString suff,int max_number)
             }
             else
             {
-                return rhymes; //if there are no such suffix in database - return empty list
+                return rhymes; //if there is no such suffix in database - return empty list
             }
 
             QString words_text("SELECT word FROM words WHERE suffix=%1");
@@ -199,6 +198,7 @@ QList<QString> get_rhymes(QString db_name,QString suff,int max_number)
                 rhymes.push_back(query.value(0).toString());
                 counter++;
             }
+            query.clear();
             db.close();
         }
     return rhymes;
